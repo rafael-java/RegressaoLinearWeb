@@ -45,35 +45,27 @@ public class RegressaoLinearService {
 			atual.setCoefBNovo(atual.getCoefB()
 					- re.getTaxaDeAprendizagem() * (2.0 / re.getAmostra().size()) * atual.getSomaErroVX());
 
-			// Achou o erro mínimo
-			// Assumindo que não vai ficar subindo e descendo 
 			if (iteracao > 2 && !subindo && atual.getErroMedio() >= anterior.getErroMedio()) {
-
+				// Achou o erro mínimo
+				// Assumindo que não vai ficar subindo e descendo
+				
 				res.setEstruturaCorreta(anterior);
 				subindo = true;
-
-//				ErrosDTO erroDTO = new ErrosDTO();
-//				erroDTO.setErroMedio(atual.getErroMedio());
-//				erroDTO.setIndice(iteracao + 1);
-
-//				erroDTO.setSubindo(subindo);
-//				res.setErros(memoria);
-//				return res;
-//				// ao invez de iteracao maxima, colocar um limite, como se fosse um delta
-				// Não achou o erro mínimo, mas chegou na iteração máxima
-				// IteracaoMax = quando para
 			} else if (iteracao > 0 && !subindo && atual.getErroMedio() > anterior.getErroMedio()) {
 				// Não achou o erro mínimo, pois a taxa de aprendizagem está muito grande
 				throw new ResourceBadRequestException("A taxa de aprendizagem está muito alta");
-//				// sofisticar: resubmete com uma taxa menor, ai da uma taxa boa
 			}
+//			// sofisticar: resubmete com uma taxa menor, ai da uma taxa boa
 
+			ErrosDTO erroDTO = new ErrosDTO();
+			erroDTO.setSubindo(subindo);
+		
 			if (iteracao == re.getIteracaoMax()) {
-//				res.setEstruturaFinal(anterior);
-				ErrosDTO erroDTO = new ErrosDTO();
+//				// ao invez de iteracao maxima, colocar um limite, como se fosse um delta
+				// Não achou o erro mínimo, mas chegou na iteração máxima
+				// IteracaoMax = quando para
 				erroDTO.setErroMedio(atual.getErroMedio());
 				erroDTO.setIndice(iteracao+1);
-				erroDTO.setSubindo(subindo);
 				memoria.add(erroDTO);
 				res.setErros(memoria);
 				return res;
@@ -81,18 +73,15 @@ public class RegressaoLinearService {
 				// Está achando o erro mínimo, ainda.
 				iteracao++;
 				anterior = atual;
-				ErrosDTO erroDTO = new ErrosDTO();
 				erroDTO.setErroMedio(anterior.getErroMedio());
 				erroDTO.setIndice(iteracao);
-				erroDTO.setSubindo(subindo);
 				memoria.add(erroDTO);
+				
 				atual = new ComparavelModel(anterior.getCoefANovo(), anterior.getCoefBNovo());
 				resetDadosAmostra(re.getAmostra());
 			}
 		}
 	}
-
-	// mandar o julio implementar o grafico dos erros
 
 	private void somas(List<DadoModel> amostra, ComparavelModel atual) {
 
