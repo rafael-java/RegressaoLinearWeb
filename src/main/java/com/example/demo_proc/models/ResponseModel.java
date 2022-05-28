@@ -18,6 +18,7 @@ public class ResponseModel implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private List<ErrosDTO> erros;
+	private List<CoefsLinhaDTO> coefsLinhas;
 	private ComparavelModel estruturaCorreta;
 	private Double yPredicao;
 	private EscalaModel escalaDoGraficoErros;
