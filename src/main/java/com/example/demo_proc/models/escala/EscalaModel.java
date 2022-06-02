@@ -1,4 +1,4 @@
-package com.example.demo_proc.models;
+package com.example.demo_proc.models.escala;
 
 import lombok.Getter;
 import lombok.Setter;

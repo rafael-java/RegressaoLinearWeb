@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo_proc.models.RequestModel;
-import com.example.demo_proc.models.ResponseModel;
+import com.example.demo_proc.models.web.RequestModel;
+import com.example.demo_proc.models.web.ResponseModel;
 import com.example.demo_proc.service.RegressaoLinearService;
 
 @RestController

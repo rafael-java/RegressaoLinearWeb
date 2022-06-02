@@ -1,4 +1,4 @@
-package com.example.demo_proc.models;
+package com.example.demo_proc.models.principal;
 
 import java.io.Serializable;
 
@@ -18,15 +18,18 @@ public class ComparavelModel implements Serializable {
 
 	private Double somaErro;
 	private Double somaErroVX;
+	// Soma dos erros ao quadrado
 	private Double somaErroEQdrado;
 	private Double erroMedio;
 	private Double coefA;
 	private Double coefB;
 	private Double coefANovo;
 	private Double coefBNovo;
+	private Integer indice;
 
-	public ComparavelModel(Double coefA, Double coefB) {
+	public ComparavelModel(Double coefA, Double coefB, Integer indice) {
 		setCoefA(coefA);
 		setCoefB(coefB);
+		setIndice(indice);
 	}
 }

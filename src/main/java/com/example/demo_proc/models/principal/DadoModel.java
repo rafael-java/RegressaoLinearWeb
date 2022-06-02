@@ -1,4 +1,4 @@
-package com.example.demo_proc.models;
+package com.example.demo_proc.models.principal;
 
 import java.io.Serializable;
 
@@ -20,6 +20,7 @@ public class DadoModel implements Serializable {
 	private Double yPredito;
 	private Double erro;
 	private Double erroVX;
+	// Erro ao quadrado
 	private Double erroEQdrado;
 
 	public DadoModel() {
