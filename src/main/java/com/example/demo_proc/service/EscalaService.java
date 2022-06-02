@@ -9,7 +9,7 @@ import com.example.demo_proc.error_exception.ResourceBadRequestException;
 import com.example.demo_proc.models.escala.EscalaModel;
 import com.example.demo_proc.models.escala.MinMaxDTO;
 import com.example.demo_proc.models.principal.DadoModel;
-import com.example.demo_proc.models.principal.ErrosDTO;
+import com.example.demo_proc.models.principal.dto.ErrosDTO;
 import com.example.demo_proc.models.web.RequestModel;
 
 @Service

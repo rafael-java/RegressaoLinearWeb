@@ -1,4 +1,4 @@
-package com.example.demo_proc.models.principal;
+package com.example.demo_proc.models.principal.dto;
 
 import lombok.Getter;
 import lombok.Setter;

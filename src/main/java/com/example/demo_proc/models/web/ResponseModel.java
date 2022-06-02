@@ -6,9 +6,9 @@ import java.util.List;
 import javax.persistence.Entity;
 
 import com.example.demo_proc.models.escala.EscalaModel;
-import com.example.demo_proc.models.principal.CoefsLinhaDTO;
 import com.example.demo_proc.models.principal.ComparavelModel;
-import com.example.demo_proc.models.principal.ErrosDTO;
+import com.example.demo_proc.models.principal.dto.CoefsLinhaDTO;
+import com.example.demo_proc.models.principal.dto.ErrosDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

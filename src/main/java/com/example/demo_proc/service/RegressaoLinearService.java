@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo_proc.error_exception.ResourceBadRequestException;
-import com.example.demo_proc.models.principal.CoefsLinhaDTO;
 import com.example.demo_proc.models.principal.ComparavelModel;
 import com.example.demo_proc.models.principal.DadoModel;
-import com.example.demo_proc.models.principal.ErrosDTO;
+import com.example.demo_proc.models.principal.dto.CoefsLinhaDTO;
+import com.example.demo_proc.models.principal.dto.ErrosDTO;
 import com.example.demo_proc.models.web.RequestModel;
 import com.example.demo_proc.models.web.ResponseModel;
 
