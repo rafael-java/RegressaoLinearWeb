@@ -52,19 +52,26 @@ public class RegressaoLinearService {
 			atual.setCoefBNovo(atual.getCoefB()
 					- re.getTaxaDeAprendizagem() * (2.0 / re.getAmostra().size()) * atual.getSomaErroVX());
 
-			if (iteracao > 2 && !subindo && atual.getErroMedio() >= anterior.getErroMedio()) {
-				// Achou o erro mínimo
-				// Assumindo que não vai ficar subindo e descendo
+			if (!subindo) {
+				if (iteracao > 2 && atual.getErroMedio() >= anterior.getErroMedio()) {
+					// Achou o erro mínimo
+					// Assumindo que não vai ficar subindo e descendo
+					// A iteração é 2 pois na primeira iteração não dá pra saber se tá subindo (ex: 3 -> 2 -> 3)
+					// Se ele fizer (3 -> 2 -> 3, indica o erro abaixo)
+					// Se ele fizer (3 -> 2 -> 1 -> 3), ok
 
-				res.setEstruturaCorreta(anterior);
-				subindo = true;
-				
-			} else if (iteracao > 0 && !subindo && atual.getErroMedio() > anterior.getErroMedio()) {
-				// Subiu na segunda iteração, está errado
-				// Pois a taxa de aprendizagem está muito grande
-
-				throw new ResourceBadRequestException("ERRO! A taxa de aprendizagem está muito alta");
+					res.setEstruturaCorreta(anterior);
+					subindo = true;
+					
+				} else if (iteracao > 0 && atual.getErroMedio() > anterior.getErroMedio()) {
+					// Subiu na segunda iteração, está errado
+					// Pois a taxa de aprendizagem está muito grande
+					// tem que ser maior que 0, pois na primeira iteração não há anterior
+					
+					throw new ResourceBadRequestException("ERRO! A taxa de aprendizagem está muito alta");
+				}
 			}
+			
 //			// sofisticar: resubmete com uma taxa menor, ai da uma taxa boa
 
 			ErrosDTO erroDTO = new ErrosDTO();
@@ -115,8 +122,7 @@ public class RegressaoLinearService {
 
 	public ResponseModel acharModeloEPredizer(RequestModel re) {
 		ResponseModel res = acharModelo(re);
-		ComparavelModel comp = acharModelo(re).getEstruturaCorreta();
-		res.setEstruturaCorreta(comp);
+		ComparavelModel comp = res.getEstruturaCorreta();
 		
 		Double predicao = re.getValorXParaPredizer() * comp.getCoefA() + comp.getCoefB();
 		res.setYPredicao(predicao);
