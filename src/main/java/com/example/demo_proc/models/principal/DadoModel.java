@@ -10,7 +10,7 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class DadoModel implements Serializable {
+public class DadoModel implements Serializable, Coisas {
 
 	private static final long serialVersionUID = 1L;
 

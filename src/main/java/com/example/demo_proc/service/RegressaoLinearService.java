@@ -22,6 +22,9 @@ public class RegressaoLinearService {
 	@Autowired
 	EscalaService escalaService;
 	
+	@Autowired
+	EscalaService2 escalaService2;
+	
 	private static ComparavelModel anterior = new ComparavelModel();
 
 	public ResponseModel acharModelo(RequestModel re) {
@@ -96,8 +99,8 @@ public class RegressaoLinearService {
 				res.setErros(erros);
 				res.setCoefsLinhas(coefsLinhas);
 
-				res.setEscalaDoGraficoErros(escalaService.gerarEscalaGraficoErros(erros));
-				res.setEscalaDoGraficoPrincipal(escalaService.gerarEscalaGraficoPrincipal(re));
+				res.setEscalaDoGraficoErros(escalaService2.gerarEscalaGraficoErros(erros));
+				res.setEscalaDoGraficoPrincipal(escalaService2.gerarEscalaGraficoPrincipal(re));
 
 				return res;
 			} else {
@@ -126,7 +129,7 @@ public class RegressaoLinearService {
 		
 		Double predicao = re.getValorXParaPredizer() * comp.getCoefA() + comp.getCoefB();
 		res.setYPredicao(predicao);
-		res.setEscalaDoGraficoPrincipal(escalaService.gerarEscalaGraficoPrincipalPredito(re, re.getValorXParaPredizer(), predicao));
+		res.setEscalaDoGraficoPrincipal(escalaService2.gerarEscalaGraficoPrincipalPredito(re, re.getValorXParaPredizer(), predicao));
 		return res;
 	}
 
