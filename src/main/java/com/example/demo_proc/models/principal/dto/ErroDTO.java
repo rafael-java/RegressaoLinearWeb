@@ -5,10 +5,14 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class ErrosDTO {
+public class ErroDTO {
 	
 	private Integer indice;
 	private Double erroMedio;
 	private Boolean subindo;
+	private Boolean menorErro;
 	
+	public ErroDTO() {
+		this.menorErro = false;
+	}
 }

@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import com.example.demo_proc.models.escala.EscalaModel;
 import com.example.demo_proc.models.principal.ComparavelModel;
 import com.example.demo_proc.models.principal.dto.CoefsLinhaDTO;
-import com.example.demo_proc.models.principal.dto.ErrosDTO;
+import com.example.demo_proc.models.principal.dto.ErroDTO;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class ResponseModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private List<ErrosDTO> erros;
+	private List<ErroDTO> erros;
 	private List<CoefsLinhaDTO> coefsLinhas;
 	private ComparavelModel estruturaCorreta;
 	private Double yPredicao;
