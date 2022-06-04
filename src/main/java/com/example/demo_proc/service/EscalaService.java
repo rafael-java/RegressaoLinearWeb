@@ -36,20 +36,40 @@ public class EscalaService {
 		EscalaModel escal = new EscalaModel();
 
 		// ver isso
-		if (ehDeGrandezaAlta(amostra.size(), amostra.get(0).getXInicial(), amostra.get(1).getXInicial())) {
-			escal.setXMax(xMax + 2.0);
-			escal.setXMin(xMin - 2.0);
+		if (ehMaiorQueDez(amostra.size(), xMax)) {
+			Double percentMax = xMax * 0.05;
+			Double percentMin = xMin * 0.05;
+			escal.setXMax(xMax + percentMax);
+			escal.setXMin(xMin - percentMin);
 		} else {
 			escal.setXMax(xMax + 0.5);
 			escal.setXMin(xMin - 0.5);
 		}
 
 		// ver isso
-		if (ehDeGrandezaAlta(amostra.size(), amostra.get(0).getYInicial(), amostra.get(1).getYInicial())) {
-			escal.setYMax(yMax + 2.0);
-			escal.setYMin(yMin - 2.0);
+		if (ehMaiorQueDez(amostra.size(), yMax)) {
+			Double percentMax = yMax * 0.1;
+			if(percentMax < 0) {
+				percentMax = percentMax * -1;
+			}
+//			Double percentMin = yMin * 0.1;
+			escal.setYMax(yMax + percentMax);
+//			escal.setYMin(yMin - percentMin);
 		} else {
 			escal.setYMax(yMax + 0.5);
+//			escal.setYMin(yMin - 0.5);
+		}
+		
+		if (ehMaiorQueDez(amostra.size(), yMin)) {
+//			Double percentMax = yMax * 0.05;
+			Double percentMin = yMin * 0.1;
+			if(percentMin < 0) {
+				percentMin = percentMin * -1;
+			}
+//			escal.setYMax(yMax + percentMax);
+			escal.setYMin(yMin - percentMin);
+		} else {
+//			escal.setYMax(yMax + 0.5);
 			escal.setYMin(yMin - 0.5);
 		}
 
@@ -66,16 +86,24 @@ public class EscalaService {
 
 		List<DadoModel> amostra = req.getAmostra();
 
-		if (ehDeGrandezaAlta(amostra.size(), amostra.get(0).getXInicial(), amostra.get(1).getXInicial())) {
-			escal.setXMax(xMax + 2.0);
+		if (ehMaiorQueDez(amostra.size(), xMax)) {
+			Double percentMax = xMax * 0.05;
+			if(percentMax < 0) {
+				percentMax = percentMax * -1;
+			}
+			escal.setXMax(xMax + percentMax);
 		} else {
 			escal.setXMax(xMax + 0.5);
 		}
 
-		if (ehDeGrandezaAlta(amostra.size(), amostra.get(0).getYInicial(), amostra.get(1).getYInicial())) {
-			escal.setYMax(yMax + 2.0);
+		if (ehMaiorQueDez(amostra.size(), yMax)) {
+			Double percentMax = yMax * 0.1;
+			if(percentMax < 0) {
+				percentMax = percentMax * -1;
+			}
+			escal.setYMax(yMax + percentMax);
 		} else {
-			escal.setYMax(yMax + 0.5);
+			escal.setYMax(yMax + 5);
 		}
 
 //		escal.setYMax(escal.getYMax() * 100);
@@ -96,20 +124,39 @@ public class EscalaService {
 		escal.setXMax(xMax + 1.0);
 		escal.setXMin(0.0);
 
-		if (ehDeGrandezaAlta(erros.size(), erros.get(0).getErroMedio(), erros.get(erros.size() - 1).getErroMedio())) {
-			escal.setYMax(yMax + 2.0);
-			escal.setYMin(yMin - 2.0);
+		if (ehMaiorQueDez(erros.size(), yMax)) {
+			Double percentMax = yMax * 0.1;
+			if(percentMax < 0) {
+				percentMax = percentMax * -1;
+			}
+//			Double percentMin = yMin * 0.05;
+			escal.setYMax(yMax + percentMax);
+//			escal.setYMin(yMin - percentMin);
 		} else {
 			escal.setYMax(yMax + 0.5);
-			escal.setYMin(yMin - 0.5);
+//			escal.setYMin(yMin - 0.5);
 		}
 
-		escal.setYMax(escal.getYMax() - 50000);
-		escal.setYMin((escal.getYMin() / 1000) * -1);
+		if (ehMaiorQueDez(erros.size(), yMin)) {
+//			Double percentMax = yMax * 0.05;
+			Double percentMin = yMin * 0.1;
+			if(percentMin < 0) {
+				percentMin = percentMin * -1;
+			}
+//			escal.setYMax(yMax + percentMax);
+			escal.setYMin(yMin - percentMin);
+		} else {
+//			escal.setYMax(yMax + 0.5);
+			escal.setYMin(yMin - 0.5);
+		}
+		
+//		escal.setYMax(escal.getYMax() - 50000);
+//		escal.setYMin((escal.getYMin() / 1000) * -1);
 
 		return escal;
 
 	}
+	
 
 	private MinMaxDTO acharMinimosEMaximos_amostra(List<DadoModel> amostra, List<CoefsLinhaDTO> coefs) {
 		
@@ -165,15 +212,18 @@ public class EscalaService {
 		return retorna;
 	}
 	
-	private Boolean ehDeGrandezaAlta(Integer tamanho, Double dado1, Double dado2) {
+	private Boolean ehMaiorQueDez(Integer tamanho, Double dado1) {
 
 		if (tamanho < 2) {
-			throw new ResourceBadRequestException("Amostra precisa ter mais que dois dados");
-		} else if (dado1 > 1.5) {
-			if (dado2 > 1.5) {
-				return true;
-			}
+			throw new ResourceBadRequestException("Verifique os valores informados. Obs: Amostra precisa de mais de dois dados ");
+		} else if (dado1 < 0) {
+			dado1 = dado1 * -1;
 		}
+			
+		if (dado1 > 10.0) {
+			return true;
+		} 
+		
 		return false;
 	}
 }
