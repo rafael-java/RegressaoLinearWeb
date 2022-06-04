@@ -12,6 +12,6 @@ public class MinMaxDTO {
 	
 	public MinMaxDTO () {
 		this.min = Double.MAX_VALUE;
-		this.max = -100.0;
+		this.max = Double.MIN_VALUE;
 	}
 }

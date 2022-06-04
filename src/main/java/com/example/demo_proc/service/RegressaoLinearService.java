@@ -132,7 +132,7 @@ public class RegressaoLinearService {
 		}
 	}
 
-	public ResponseModel acharModeloEPredizer(RequestModel req) {
+	public ResponseModel predizer(RequestModel req) {
 		ResponseModel res = acharModelo(req);
 		ComparavelModel comp = res.getEstruturaCorreta();
 

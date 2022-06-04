@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo_proc.models.web.RequestModel;
 import com.example.demo_proc.models.web.ResponseModel;
+import com.example.demo_proc.service.EscalaService;
 import com.example.demo_proc.service.RegressaoLinearService;
 
 @RestController
@@ -30,9 +31,8 @@ public class CtrlBasico {
 
 	@PostMapping(value = "/v1/predizer", produces = { "application/json", "application/xml" }, consumes = {
 			"application/json", "application/xml" })
-	public ResponseEntity<ResponseModel> metodoCriarEPredizer(@Valid @RequestBody RequestModel req) {
-		ResponseModel res = proc.acharModeloEPredizer(req);
+	public ResponseEntity<ResponseModel> metodoPredizer(@Valid @RequestBody RequestModel req) {
+		ResponseModel res = proc.predizer(req);
 		return ResponseEntity.ok(res);
 	}
-
 }
