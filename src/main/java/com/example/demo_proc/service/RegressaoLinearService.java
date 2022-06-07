@@ -56,14 +56,16 @@ public class RegressaoLinearService {
 				if (iteracao > 2 && atual.getErroMedio() >= anterior.getErroMedio()) {
 					// Achou o erro mínimo
 					// Assumindo que não vai ficar subindo e descendo
+					
 					// A iteração é 2 pois na primeira iteração não dá pra saber se tá subindo (ex:
 					// 3 -> 2 -> 3)
+					
 					// Se ele fizer (3 -> 2 -> 3, indica o erro abaixo)
 					// Se ele fizer (3 -> 2 -> 1 -> 3), ok
 
 					res.setEstruturaCorreta(anterior);
-					subindo = true;
 					
+					subindo = true;
 					pintarErroMenor(erros, anterior.getErroMedio());
 
 				} else if (iteracao > 0 && atual.getErroMedio() > anterior.getErroMedio()) {
@@ -77,10 +79,11 @@ public class RegressaoLinearService {
 
 //			// sofisticar: resubmete com uma taxa menor, ai da uma taxa boa
 
-			ErroDTO erroDTO = new ErroDTO();
-			erroDTO.setSubindo(subindo);
-
 			CoefsLinhaDTO coefsLinha = new CoefsLinhaDTO();
+
+			ErroDTO erroDTO = new ErroDTO();
+			
+			erroDTO.setSubindo(subindo);
 
 			if (iteracao == req.getIteracaoMax()) {
 				// IteracaoMax = quando para
@@ -109,6 +112,7 @@ public class RegressaoLinearService {
 				anterior = atual;
 				erroDTO.setErroMedio(anterior.getErroMedio());
 				erroDTO.setIndice(iteracao);
+				
 				erros.add(erroDTO);
 
 				atual = new ComparavelModel(anterior.getCoefANovo(), anterior.getCoefBNovo(), iteracao + 1);
@@ -116,6 +120,7 @@ public class RegressaoLinearService {
 				coefsLinha.setCoefA(anterior.getCoefA());
 				coefsLinha.setCoefB(anterior.getCoefB());
 				coefsLinha.setIndice(iteracao);
+				
 				coefsLinhas.add(coefsLinha);
 
 				resetDadosAmostra(req.getAmostra());
@@ -123,26 +128,12 @@ public class RegressaoLinearService {
 		}
 	}
 	
-	public void pintarErroMenor(List<ErroDTO> erros, Double erroMenor) {
-		for (int i = erros.size()-1; i >= 0; i--) {
-			if (erros.get(i).getErroMedio() == erroMenor) {
-				erros.get(i).setMenorErro(true);
-				break;
-			}
+	private void resetDadosAmostra(List<DadoModel> amostra) {
+		for (DadoModel dado : amostra) {
+			dado.resetDados();
 		}
 	}
-
-	public ResponseModel predizer(RequestModel req) {
-		ResponseModel res = acharModelo(req);
-		ComparavelModel comp = res.getEstruturaCorreta();
-
-		Double predicao = req.getValorXParaPredizer() * comp.getCoefA() + comp.getCoefB();
-		res.setYPredicao(predicao);
-		res.setEscalaDoGraficoPrincipal(escalaService.gerarEscalaGraficoPrincipal_Predito(req,
-				req.getValorXParaPredizer(), predicao, res.getCoefsLinhas()));
-		return res;
-	}
-
+	
 	private void somas(List<DadoModel> amostra, ComparavelModel atual) {
 
 		Double totalErro = 0D;
@@ -160,10 +151,30 @@ public class RegressaoLinearService {
 		atual.setSomaErroEQdrado(totalErroEQdrado);
 	}
 
-	private void resetDadosAmostra(List<DadoModel> amostra) {
-		for (DadoModel dado : amostra) {
-			dado.resetDados();
+	
+	private void pintarErroMenor(List<ErroDTO> erros, Double erroMenor) {
+		for (int i = erros.size()-1; i >= 0; i--) {
+			if (erros.get(i).getErroMedio() == erroMenor) {
+				erros.get(i).setMenorErro(true);
+				break;
+			}
 		}
 	}
+
+	public ResponseModel predizer(RequestModel req) {
+		ResponseModel res = acharModelo(req);
+		ComparavelModel comp = res.getEstruturaCorreta();
+
+		Double predicao = req.getValorXParaPredizer() * comp.getCoefA() + comp.getCoefB();
+		
+		res.setYPredicao(predicao);
+		res.setEscalaDoGraficoPrincipal(escalaService.gerarEscalaGraficoPrincipal_Predito(req,
+				req.getValorXParaPredizer(), predicao, res.getCoefsLinhas()));
+		
+		return res;
+	}
+
+
+	
 
 }

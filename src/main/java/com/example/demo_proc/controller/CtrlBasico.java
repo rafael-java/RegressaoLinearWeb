@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo_proc.models.web.RequestModel;
 import com.example.demo_proc.models.web.ResponseModel;
-import com.example.demo_proc.service.EscalaService;
 import com.example.demo_proc.service.RegressaoLinearService;
 
 @RestController
